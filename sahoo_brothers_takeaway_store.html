@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173f2a">
+<title>Sahoo Brothers | Morning Snacks</title>
+<style>
+:root{--green:#173f2a;--green2:#286341;--cream:#fffaf0;--orange:#f0a13a;--ink:#202820;--muted:#697269;--line:#e6e9e2}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--cream);color:var(--ink)}
+header{background:linear-gradient(135deg,#173f2a,#286341);color:white;padding:28px 18px 24px;border-radius:0 0 24px 24px}
+.wrap{max-width:760px;margin:auto;padding:0 16px}
+.brand{font-size:12px;letter-spacing:2px;font-weight:800;color:#f9d49b}.hero h1{font-size:clamp(30px,8vw,44px);line-height:1.05;margin:8px 0}.hero p{margin:8px 0;color:#e5eee5}.details{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.pill{font-size:13px;background:#ffffff1c;border:1px solid #ffffff38;border-radius:999px;padding:7px 10px}
+main{padding:22px 0 110px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:12px 0}.section-head h2{margin:0;font-size:22px}.section-head small{color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.item{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;box-shadow:0 3px 12px #1d38200a}.emoji{font-size:28px}.item h3{margin:8px 0 3px;font-size:17px}.category{font-size:12px;color:var(--muted)}.price{font-weight:800;font-size:19px;margin-top:12px}.add{border:0;background:var(--green);color:white;border-radius:10px;padding:10px 12px;font-weight:700;cursor:pointer;width:100%;margin-top:10px}.add:active,.checkout:active{transform:scale(.99)}
+.cart{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:22px}.cart h2{margin:0 0 10px;font-size:21px}.empty{color:var(--muted);font-size:14px}.cart-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.cart-row:last-of-type{border-bottom:0}.qty{display:flex;align-items:center;gap:9px}.qty button{width:30px;height:30px;border:1px solid var(--line);background:#f7f8f4;border-radius:8px;font-size:18px;cursor:pointer}.total{display:flex;justify-content:space-between;font-weight:800;padding:15px 0 8px}.field{display:block;width:100%;border:1px solid #d9ded6;border-radius:10px;padding:12px;font:inherit;margin-top:10px;background:#fff}.checkout{width:100%;border:0;border-radius:12px;background:#1e9e58;color:#fff;padding:14px;font-weight:800;font-size:16px;cursor:pointer;margin-top:12px}.paynote{font-size:13px;color:var(--muted);line-height:1.5;margin-top:12px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px 0}.warning{background:#fff2d9;border:1px solid #f3d69c;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;margin-top:18px}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{display:flex;align-items:end;justify-content:space-between;gap:18px}.hero-copy{max-width:480px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">FRESH MORNING BITES</div>
+    <div class="hero">
+      <div class="hero-copy">
+        <h1>Sahoo Brothers</h1>
+        <p>Snacks, fast food &amp; drinks</p>
+      </div>
+      <div class="details">
+        <span class="pill">📍 Barunia</span>
+        <span class="pill">🕖 7:00 AM – 11:00 AM</span>
+        <span class="pill">🛍️ Takeaway only</span>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <div class="section-head"><h2>Our Menu</h2><small>Choose items to order</small></div>
+  <div class="grid" id="menu"></div>
+  <section class="cart" id="cart">
+    <h2>Your takeaway order</h2>
+    <div id="cartItems" class="empty">Your cart is empty. Add something from the menu.</div>
+    <div id="summary" hidden>
+      <div class="total"><span>Menu total</span><span id="total">₹0</span></div>
+      <input id="customerName" class="field" autocomplete="name" placeholder="Your name (required)">
+      <input id="pickupTime" class="field" placeholder="Preferred pickup time (optional)">
+      <textarea id="notes" class="field" rows="2" placeholder="Order notes (optional)"></textarea>
+      <button class="checkout" id="whatsapp">Send order on WhatsApp</button>
+      <p class="paynote">Payment: Pay at the shop when collecting. Your order is not confirmed until Sahoo Brothers replies on WhatsApp. Please confirm item serving units and final amount with the shop.</p>
+    </div>
+  </section>
+  <div class="warning"><strong>Store setup note:</strong> Prices are shown exactly as supplied. Serving units (per piece, plate or serving) have not yet been confirmed. This demo sends the order through WhatsApp; it does not take online payments or create customer accounts.</div>
+  <div class="footer">Sahoo Brothers · Barunia · 7:00 AM–11:00 AM</div>
+</main>
+<script>
+const products = [
+ {id:"idli",name:"Idli",price:3,category:"Snacks",emoji:"🍘"},
+ {id:"bara",name:"Bara",price:3,category:"Fast food",emoji:"🥯"},
+ {id:"kakera",name:"Kakera",price:5,category:"Category to confirm",emoji:"🍪"},
+ {id:"alu-chop",name:"Alu chop",price:5,category:"Snacks",emoji:"🥔"},
+ {id:"sabji",name:"Sabji",price:5,category:"Snacks",emoji:"🍲"},
+ {id:"dalma",name:"Dalma",price:5,category:"Snacks",emoji:"🥣"},
+ {id:"gulugula",name:"Gulugula",price:3,category:"Snacks",emoji:"🍩"}
+];
+const cart = {};
+const rupees = n => "₹" + n.toFixed(2).replace(/\.00$/,"");
+const menu = document.getElementById("menu");
+products.forEach(p=>{
+ const card=document.createElement("article");card.className="item";
+ card.innerHTML=`<div class="emoji" aria-hidden="true">${p.emoji}</div><div class="category">${p.category}</div><h3>${p.name}</h3><div class="price">${rupees(p.price)}</div><button class="add" type="button">Add to order</button>`;
+ card.querySelector("button").addEventListener("click",()=>{cart[p.id]=(cart[p.id]||0)+1;renderCart()});menu.appendChild(card);
+});
+function renderCart(){
+ const rows=products.filter(p=>cart[p.id]>0), box=document.getElementById("cartItems"), summary=document.getElementById("summary");
+ if(!rows.length){box.className="empty";box.textContent="Your cart is empty. Add something from the menu.";summary.hidden=true;return}
+ box.className="";box.innerHTML="";
+ rows.forEach(p=>{
+  const row=document.createElement("div");row.className="cart-row";
+  const name=document.createElement("div");name.innerHTML=`<strong>${p.name}</strong><br><small>${rupees(p.price)} each (unit to confirm)</small>`;
+  const controls=document.createElement("div");controls.className="qty";
+  const minus=document.createElement("button");minus.type="button";minus.textContent="−";minus.setAttribute("aria-label","Remove one "+p.name);
+  const count=document.createElement("strong");count.textContent=cart[p.id];
+  const plus=document.createElement("button");plus.type="button";plus.textContent="+";plus.setAttribute("aria-label","Add one "+p.name);
+  minus.onclick=()=>{cart[p.id]--;if(cart[p.id]<=0)delete cart[p.id];renderCart()};
+  plus.onclick=()=>{cart[p.id]++;renderCart()};
+  controls.append(minus,count,plus);row.append(name,controls);box.append(row);
+ });
+ const total=rows.reduce((s,p)=>s+p.price*cart[p.id],0);document.getElementById("total").textContent=rupees(total);summary.hidden=false;
+}
+document.getElementById("whatsapp").addEventListener("click",()=>{
+ const name=document.getElementById("customerName").value.trim();
+ if(!name){alert("Please enter your name before sending the order.");document.getElementById("customerName").focus();return}
+ const rows=products.filter(p=>cart[p.id]>0);
+ const total=rows.reduce((s,p)=>s+p.price*cart[p.id],0);
+ let message="Hello Sahoo Brothers! I would like to place a TAKEAWAY order.\\n\\nName: "+name+"\\n";
+ const pickup=document.getElementById("pickupTime").value.trim();if(pickup)message+="Preferred pickup time: "+pickup+"\\n";
+ message+="\\nOrder:\\n"+rows.map(p=>"- "+p.name+" x "+cart[p.id]+" = "+rupees(p.price*cart[p.id])+" (serving unit to confirm)").join("\\n");
+ message+="\\n\\nMenu total: "+rupees(total)+"\\nPayment: Pay at shop";
+ const notes=document.getElementById("notes").value.trim();if(notes)message+="\\nNotes: "+notes;
+ message+="\\n\\nPlease confirm availability, serving units and final amount.";
+ window.location.href="https://wa.me/918249975769?text="+encodeURIComponent(message);
+});
+</script>
+</body>
+</html>
